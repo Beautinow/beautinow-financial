@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tempetek.financial.server.mapper.DscAbnormalFlowMapper">
+
+    <select id="findByPager" parameterType="com.tempetek.financial.server.model.ReqAbnormalFlowPagePO" resultType="com.tempetek.financial.server.model.ResAbnormalFlowDTO">
+        select af.id as id, af.flow_id as flowId, pf.trade_id as tradeId, pf.amount_cny as amountCny, pf.order_id as orderId, pf.created_at as orderTime, af.exception_type as exceptionType, af.status as status
+        from dsc_abnormal_flow af left join dsc_payment_flow pf on pf.id = af.flow_id
+        where 1=1
+        <if test="po.status != null">
+            and af.status = #{po.status}
+        </if>
+        <if test="po.exceptionType != null">
+            and af.exception_type = #{po.exceptionType}
+        </if>
+        <if test="po.startTime != null">
+            and pf.created_at &gt; #{po.startTime}
+        </if>
+        <if test="po.endTime != null">
+            and pf.created_at &lt; #{po.endTime}
+        </if>
+    </select>
+
+    <select id="countByTime" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(1) from dsc_abnormal_flow af
+        left join dsc_payment_flow pf on pf.id = af.flow_id
+        where date_format(from_unixtime(pf.created_at), '%Y-%m-%d') = #{date}
+    </select>
+
+</mapper>

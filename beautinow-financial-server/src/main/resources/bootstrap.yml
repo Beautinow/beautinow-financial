@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: beautinow-financial
+  cloud:
+    nacos:
+      discovery:
+        #ip: 52.81.245.178
+        ip: 192.168.110.123
+        server-addr: 122.112.140.128:8848
+        namespace: 3a4c2d44-8283-4bd9-849a-694e8598fc6c
+        group: BEAUTINOW_DEV_GROUP
+        username: beautinow
+        password: 123456
+      config:
+        server-addr: 122.112.140.128:8848
+        file-extension: yml
+        namespace: 3a4c2d44-8283-4bd9-849a-694e8598fc6c
+        group: BEAUTINOW_DEV_GROUP
+        username: beautinow
+        password: 123456
+    sentinel:
+      transport:
+        dashboard: 122.112.140.128:18080
+        port: 8719
+  profiles:
+    active: prd
+  main:
+    allow-bean-definition-overriding: true
