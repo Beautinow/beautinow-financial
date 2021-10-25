@@ -5,4 +5,8 @@
     <select id="getLatestTime" resultType="java.lang.Long">
         select max(created_at) from dsc_payment_flow
     </select>
+
+    <select id="countByTime" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(1) from dsc_payment_flow where date_format(from_unixtime(created_at), '%Y-%m-%d') = #{date}
+    </select>
 </mapper>

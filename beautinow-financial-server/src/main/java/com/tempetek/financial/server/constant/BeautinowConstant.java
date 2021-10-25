@@ -12,7 +12,7 @@ public class BeautinowConstant {
     public static String EXCEPTION_TYPE = "EXCEPTION_TYPE";
     // 重复
     public static Integer REPEAT = 0;
-    // 金额不匹配
+    // 异常订单
     public static Integer AMOUNT_NOT_MATCH  = 1;
     // 订单不存在
     public static Integer ORDER_NOT_EXIST  = 2;
@@ -20,5 +20,7 @@ public class BeautinowConstant {
     public static Integer OVERAGE_ORDER = 3;
 
     public static String ABNORNAL_TITLE = "异常流水统计";
+
+    public static String EXCEPTION_TYPE_TITLE = "异常占比统计";
 
 }

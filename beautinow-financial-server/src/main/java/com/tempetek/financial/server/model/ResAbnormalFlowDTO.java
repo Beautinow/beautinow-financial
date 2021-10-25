@@ -20,7 +20,7 @@ public class ResAbnormalFlowDTO implements Serializable {
     private String flowId;
     @ApiModelProperty("YabandPay的交易编号")
     private String tradeId;
-    @ApiModelProperty("支付金额")
+    @ApiModelProperty("流水金额")
     private Double amountCny;
     @ApiModelProperty("订单ID")
     private String orderId;
@@ -30,5 +30,19 @@ public class ResAbnormalFlowDTO implements Serializable {
     private Integer status;
     @ApiModelProperty("流水时间")
     private Long orderTime;
+    @ApiModelProperty("用户ID")
+    private String userId;
+    @ApiModelProperty("用户等级")
+    private String userLevel;
+    @ApiModelProperty("汇款账户")
+    private String remittanceAccount;
+    @ApiModelProperty("订单金额")
+    private Double totalFee;
+    /*@ApiModelProperty("流水金额")
+    private Double bankFee;*/
+    @ApiModelProperty("余额金额")
+    private Double overageFee;
+    @ApiModelProperty("偏差额")
+    private Double deviation;
     
 }

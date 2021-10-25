@@ -17,4 +17,6 @@ public interface IDscPaymentFlowService extends IService<DscPaymentFlow> {
 
     void syncPaymentFlow();
 
+    int countByTime(String date);
+
 }

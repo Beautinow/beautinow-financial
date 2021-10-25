@@ -23,7 +23,32 @@
     <select id="countByTime" parameterType="java.lang.String" resultType="java.lang.Integer">
         select count(1) from dsc_abnormal_flow af
         left join dsc_payment_flow pf on pf.id = af.flow_id
-        where date_format(from_unixtime(pf.created_at), '%Y-%m-%d') = #{date}
+        where date_format(from_unixtime(pf.created_at), '%Y-%m-%d') = #{date} and af.exception_type != 1
+    </select>
+
+    <select id="countByOrder" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(1) from dsc_abnormal_flow af
+        left join dsc_payment_flow pf on pf.id = af.flow_id
+        where date_format(from_unixtime(pf.created_at), '%Y-%m-%d') = #{date} and af.exception_type = 1
+    </select>
+
+    <select id="countByTimeAndExceptionType" parameterType="com.tempetek.financial.server.model.ReqAnalyseParamPO" resultType="java.lang.Integer">
+        select count(1) from dsc_abnormal_flow af
+        left join dsc_payment_flow pf on pf.id = af.flow_id
+        where date_format(from_unixtime(pf.created_at), '%Y-%m-%d') = #{po.date}
+        and af.exception_type = #{po.exceptionType}
+    </select>
+
+    <select id="countOrderByTime" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(1) from dsc_abnormal_flow af
+        left join dsc_payment_flow pf on pf.id = af.flow_id
+        where date_format(from_unixtime(pf.created_at), '%Y-%m') = #{date} and af.exception_type != 1
+    </select>
+
+    <select id="countOrderByYear" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(1) from dsc_abnormal_flow af
+        left join dsc_payment_flow pf on pf.id = af.flow_id
+        where date_format(from_unixtime(pf.created_at), '%Y-%m') = #{date} and af.exception_type = 1
     </select>
 
 </mapper>

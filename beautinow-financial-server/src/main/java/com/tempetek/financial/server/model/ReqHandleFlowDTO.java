@@ -14,6 +14,8 @@ public class ReqHandleFlowDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @ApiModelProperty("异常流水ID")
+    private String abnormalId;
     @ApiModelProperty("退款单号")
     private String orderId;
     @ApiModelProperty("处理人")

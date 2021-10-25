@@ -9,10 +9,13 @@ import com.tempetek.financial.server.model.ResAbnormalFlowDTO;
 import com.tempetek.maviki.web.Echarts;
 
 public interface IDscAbnormalFlowService extends IService<DscAbnormalFlow> {
+
     Page<ResAbnormalFlowDTO> findByPager(ReqAbnormalFlowPageDTO reqAbnormalFlowPageDTO);
 
     String handleFlow(ReqHandleFlowDTO reqHandleFlowDTO);
 
-    Echarts analyse();
+    Echarts analyse(Integer flag, String dateString);
+
+    Echarts analyseExceptionType(Integer flag, String dateString);
 
 }

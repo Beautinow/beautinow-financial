@@ -56,27 +56,77 @@ public class DateUtils {
         return result;
     }
 
-    public static void main(String[] args) {
-        //System.out.println(getPastDate(1));
+    public static List<String> getWeekDays(int year, int week) {
+        // 计算目标周数
+        if (week > 52) {
+            year++;
+            week -= 52;
+        } else if (week <= 0) {
+            year--;
+            week += 52;
+        }
 
-        List<User> userList = new ArrayList();
-        userList.add(new User((String)null, "root", "", "", "", 1, 1, com.tempetek.maviki.util.DateUtil.parse("2021-09-12 10:15:39"), (Date)null, (String)null, (Date)null, (String)null, (Date)null, (String)null, (String)null, (String)null, (String)null));
-        userList.add(new User((String)null, "root", "", "", "", 1, 2, com.tempetek.maviki.util.DateUtil.parse("2021-09-12 10:20:39"), (Date)null, (String)null, (Date)null, (String)null, (Date)null, (String)null, (String)null, (String)null, (String)null));
-        userList.add(new User((String)null, "root", "", "", "", 2, 3, com.tempetek.maviki.util.DateUtil.parse("2021-09-12 11:23:39"), (Date)null, (String)null, (Date)null, (String)null, (Date)null, (String)null, (String)null, (String)null, (String)null));
-        userList.add(new User((String)null, "admin", "", "", "", 1, 4, com.tempetek.maviki.util.DateUtil.parse("2021-09-12 11:25:39"), (Date)null, (String)null, (Date)null, (String)null, (Date)null, (String)null, (String)null, (String)null, (String)null));
-        userList.add(new User((String)null, "admin", "", "", "", 2, 5, com.tempetek.maviki.util.DateUtil.parse("2021-09-12 12:35:39"), (Date)null, (String)null, (Date)null, (String)null, (Date)null, (String)null, (String)null, (String)null, (String)null));
-        userList.add(new User((String)null, "admin", "", "", "", 1, 6, com.tempetek.maviki.util.DateUtil.parse("2021-09-12 13:14:39"), (Date)null, (String)null, (Date)null, (String)null, (Date)null, (String)null, (String)null, (String)null, (String)null));
-        userList.add(new User((String)null, "test", "", "", "", 1, 7, com.tempetek.maviki.util.DateUtil.parse("2021-09-12 13:26:39"), (Date)null, (String)null, (Date)null, (String)null, (Date)null, (String)null, (String)null, (String)null, (String)null));
-        userList.add(new User((String)null, "test", "", "", "", 2, 8, com.tempetek.maviki.util.DateUtil.parse("2021-09-12 13:37:39"), (Date)null, (String)null, (Date)null, (String)null, (Date)null, (String)null, (String)null, (String)null, (String)null));
-        userList.add(new User((String)null, "test", "", "", "", 1, 9, com.tempetek.maviki.util.DateUtil.parse("2021-09-12 13:45:39"), (Date)null, (String)null, (Date)null, (String)null, (Date)null, (String)null, (String)null, (String)null, (String)null));
-        userList.add(new User((String)null, "test", "", "", "", 2, 1, com.tempetek.maviki.util.DateUtil.parse("2021-09-12 15:11:39"), (Date)null, (String)null, (Date)null, (String)null, (Date)null, (String)null, (String)null, (String)null, (String)null));
-        Date startTime = com.tempetek.maviki.util.DateUtil.parse("2021-09-06 00:00:00");
-        Date endTime = com.tempetek.maviki.util.DateUtil.parse("2021-09-12 23:59:59");
-        String[] groupFields = new String[]{"userName", "locked"};
-        String template = "[userName]-[locked]";
-        Report report = new Report("", 1, groupFields, "usable", 3, true, "expiredTime", 5, 1, template, (Object)null);
-        Echarts echarts = Test.handler(startTime, endTime, userList, report);
-        System.out.println(echarts);
+        List<String> dateList = new ArrayList<>();
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+        Calendar cal=Calendar.getInstance();
+
+        // 设置每周的开始日期
+        cal.setFirstDayOfWeek(Calendar.SUNDAY);
+        cal.set(Calendar.YEAR, year);
+        cal.set(Calendar.WEEK_OF_YEAR, week);
+        cal.set(Calendar.DAY_OF_WEEK, cal.getFirstDayOfWeek());
+        Date beginDate = cal.getTime();
+        //String beginDate = sdf.format(cal.getTime());
+        cal.add(Calendar.DAY_OF_WEEK, 6);
+        //String endDate = sdf.format(cal.getTime());
+        Date endDate = cal.getTime();
+        dateList.add(sdf.format(cal.getTime()));
+
+        while (beginDate.before(cal.getTime())) {
+            // 根据日历的规则，为给定的日历字段添加或减去指定的时间量
+            cal.add(Calendar.DAY_OF_MONTH, -1);
+            dateList.add(sdf.format(cal.getTime()));
+        }
+        Collections.reverse(dateList);
+        return dateList;
     }
 
+    public static List<String> getMonthFullDay(int year , int month){
+        SimpleDateFormat dateFormatYYYYMMDD = new SimpleDateFormat("yyyy-MM-dd");
+        List<String> fullDayList = new ArrayList<>(32);
+        // 获得当前日期对象
+        Calendar cal = Calendar.getInstance();
+        cal.clear();// 清除信息
+        cal.set(Calendar.YEAR, year);
+        // 1月从0开始
+        cal.set(Calendar.MONTH, month-1 );
+        // 当月1号
+        cal.set(Calendar.DAY_OF_MONTH,1);
+        int count = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+        for (int j = 1; j <= count ; j++) {
+            fullDayList.add(dateFormatYYYYMMDD.format(cal.getTime()));
+            cal.add(Calendar.DAY_OF_MONTH,1);
+        }
+        return fullDayList;
+    }
+
+    public static List<String> getAllMoth(int year){
+        SimpleDateFormat dateFormatYYYYMMDD = new SimpleDateFormat("yyyy-MM");
+        List<String> fullDayList = new ArrayList<>(12);
+        // 获得当前日期对象
+        Calendar cal = Calendar.getInstance();
+        cal.clear();// 清除信息
+        cal.set(Calendar.YEAR, year);
+        // 1月从0开始
+        cal.set(Calendar.MONTH, 0);
+        for (int j = 1; j <= 12 ; j++) {
+            fullDayList.add(dateFormatYYYYMMDD.format(cal.getTime()));
+            cal.add(Calendar.MONTH,1);
+        }
+        return fullDayList;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(getAllMoth(2021));
+    }
 }

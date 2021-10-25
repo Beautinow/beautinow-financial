@@ -36,9 +36,16 @@ public class DscAbnormalFlowController {
     }
 
     @GetMapping("/analyse")
-    @ApiOperation("/异常流水分析")
-    public Respon analyse() {
-        Echarts echarts = dscAbnormalFlowService.analyse();
+    @ApiOperation("/异常流水统计分析")
+    public Respon analyse(@RequestParam Integer flag, @RequestParam String dateString) {
+        Echarts echarts = dscAbnormalFlowService.analyse(flag, dateString);
+        return Respon.success(echarts);
+    }
+
+    @GetMapping("/analyseExceptionType")
+    @ApiOperation("/异常类型占比分析")
+    public Respon analyseExceptionType(@RequestParam Integer flag, @RequestParam String dateString) {
+        Echarts echarts = dscAbnormalFlowService.analyseExceptionType(flag, dateString);
         return Respon.success(echarts);
     }
 

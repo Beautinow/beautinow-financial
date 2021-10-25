@@ -8,7 +8,6 @@ import com.tempetek.financial.server.entity.DscPaymentFlow;
 import com.tempetek.financial.server.exception.BeautinowException;
 import com.tempetek.financial.server.mapper.DscPaymentFlowMapper;
 import com.tempetek.financial.server.model.*;
-import com.tempetek.financial.server.service.IDscAbnormalFlowService;
 import com.tempetek.financial.server.service.IDscPaymentFlowService;
 import com.tempetek.financial.server.support.IDscPaymentFlowSupport;
 import com.tempetek.financial.server.util.DateUtils;
@@ -42,10 +41,6 @@ public class DscPaymentFlowServiceImpl extends ServiceImpl<DscPaymentFlowMapper,
     private String listOrderByTime;
     @Value("${yaband.queryOrder}")
     private String queryOrder;
-    @Autowired
-    private IDscAbnormalFlowService dscAbnormalFlowService;
-    @Autowired
-    private DearsystemFeignClient dearsystemFeignClient;
     @Autowired
     private IDscPaymentFlowSupport  dscPaymentFlowSupport;
 
@@ -280,6 +275,11 @@ public class DscPaymentFlowServiceImpl extends ServiceImpl<DscPaymentFlowMapper,
             log.error(e.getMessage() + "定时获取yaband流水信息失败!");
             throw new BeautinowException(MessageEnum.FAIL.getCode(), "定时获取yaband流水信息失败!");
         }
+    }
+
+    @Override
+    public int countByTime(String date) {
+        return baseMapper.countByTime(date);
     }
 
 }
